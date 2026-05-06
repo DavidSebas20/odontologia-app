@@ -18,19 +18,26 @@ export default async function DashboardPage() {
   // Métricas Fase 1: conteo de pacientes
   const [{ count: totalPatients }, { count: newPatientsThisMonth }] =
     await Promise.all([
-      supabase
-        .from("patients")
-        .select("*", { count: "exact", head: true }),
+      supabase.from("patients").select("*", { count: "exact", head: true }),
       supabase
         .from("patients")
         .select("*", { count: "exact", head: true })
         .gte(
           "created_at",
-          new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString(),
+          new Date(
+            new Date().getFullYear(),
+            new Date().getMonth(),
+            1,
+          ).toISOString(),
         ),
     ]);
 
-  type KPI = { label: string; value: string; description: string; href?: string };
+  type KPI = {
+    label: string;
+    value: string;
+    description: string;
+    href?: string;
+  };
 
   const kpisByRole: Record<UserRole, KPI[]> = {
     admin: [
@@ -53,7 +60,11 @@ export default async function DashboardPage() {
       },
     ],
     dentista: [
-      { label: "Mis citas hoy", value: "—", description: "Se activará en Fase 2" },
+      {
+        label: "Mis citas hoy",
+        value: "—",
+        description: "Se activará en Fase 2",
+      },
       {
         label: "Total pacientes",
         value: String(totalPatients ?? 0),
@@ -73,7 +84,11 @@ export default async function DashboardPage() {
     ],
     recepcion: [
       { label: "Citas hoy", value: "—", description: "Se activará en Fase 2" },
-      { label: "Por confirmar", value: "—", description: "Se activará en Fase 2" },
+      {
+        label: "Por confirmar",
+        value: "—",
+        description: "Se activará en Fase 2",
+      },
       {
         label: "Nuevos pacientes (mes)",
         value: String(newPatientsThisMonth ?? 0),
@@ -135,7 +150,9 @@ export default async function DashboardPage() {
               <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
                 {kpi.label}
               </p>
-              <p className="text-3xl font-bold text-primary mt-1">{kpi.value}</p>
+              <p className="text-3xl font-bold text-primary mt-1">
+                {kpi.value}
+              </p>
               <p className="text-xs text-muted-foreground/70 mt-0.5">
                 {kpi.description}
               </p>
