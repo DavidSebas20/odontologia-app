@@ -93,7 +93,11 @@ export default function PatientsTable({
                   </td>
                   <td className="px-4 py-3 text-right">
                     <Link href={`/pacientes/${p.id}`}>
-                      <Button variant="ghost" size="sm">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="text-primary border-primary/40 hover:bg-primary hover:text-white hover:border-primary"
+                      >
                         Ver
                       </Button>
                     </Link>

@@ -8,13 +8,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, type LoginInput } from "@/lib/validators/auth";
 import { loginAction } from "@/server/actions/auth";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
   Form,
   FormControl,
   FormField,
@@ -47,82 +40,77 @@ export default function LoginPage() {
   }
 
   return (
-    <Card className="w-full max-w-md">
-      <CardHeader className="text-center pb-4">
-        <CardTitle className="text-xl font-bold text-foreground">
-          Iniciar sesión
-        </CardTitle>
-        <CardDescription className="text-muted-foreground">
-          Ingresa tus credenciales para acceder al sistema
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        {registered && (
-          <div className="mb-4 p-3 rounded-md bg-green-50 border border-green-200 text-green-700 text-sm">
-            Cuenta creada correctamente. Inicia sesión para continuar.
-          </div>
-        )}
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Correo electrónico</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="email"
-                      placeholder="nombre@clinica.com"
-                      autoComplete="email"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Contraseña</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="password"
-                      placeholder="••••••••"
-                      autoComplete="current-password"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+    <div className="p-8">
+      <div className="mb-6 text-center">
+        <h1 className="text-xl font-bold text-foreground">Iniciar sesión</h1>
+      </div>
 
-            {serverError && (
-              <p className="text-sm text-red-500 bg-red-50 border border-red-200 rounded-md p-3">
-                {serverError}
-              </p>
+      {registered && (
+        <div className="mb-4 p-3 rounded-md bg-green-50 border border-green-200 text-green-700 text-sm">
+          Cuenta creada correctamente. Inicia sesión para continuar.
+        </div>
+      )}
+
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Correo electrónico</FormLabel>
+                <FormControl>
+                  <Input
+                    type="email"
+                    placeholder="nombre@clinica.com"
+                    autoComplete="email"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
             )}
+          />
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Contraseña</FormLabel>
+                <FormControl>
+                  <Input
+                    type="password"
+                    placeholder="••••••••"
+                    autoComplete="current-password"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-            <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Ingresando..." : "Iniciar sesión"}
-            </Button>
-
-            <p className="text-center text-sm text-muted-foreground">
-              ¿No tienes cuenta?{" "}
-              <Link
-                href="/auth/register"
-                className="underline hover:text-foreground"
-              >
-                Regístrate
-              </Link>
+          {serverError && (
+            <p className="text-sm text-red-500 bg-red-50 border border-red-200 rounded-md p-3">
+              {serverError}
             </p>
-          </form>
-        </Form>
-      </CardContent>
-    </Card>
+          )}
+
+          <Button type="submit" className="w-full" disabled={loading}>
+            {loading ? "Ingresando..." : "Iniciar sesión"}
+          </Button>
+
+          <p className="text-center text-sm text-muted-foreground">
+            ¿No tienes cuenta?{" "}
+            <Link
+              href="/auth/register"
+              className="text-primary font-medium hover:underline"
+            >
+              Regístrate
+            </Link>
+          </p>
+        </form>
+      </Form>
+    </div>
   );
 }

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getPatientById } from "@/server/actions/patients";
 import PatientForm from "@/components/patients/patient-form";
 import { Button } from "@/components/ui/button";
+import { IoMdArrowBack } from "react-icons/io";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -33,7 +34,7 @@ export default async function PacienteDetailPage({ params }: Props) {
             size="sm"
             className="text-muted-foreground hover:text-foreground"
           >
-            ← Pacientes
+            <IoMdArrowBack /> Pacientes
           </Button>
         </Link>
         <div className="h-4 w-px bg-border" />

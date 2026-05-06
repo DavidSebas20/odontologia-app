@@ -5,9 +5,6 @@ export default function NuevoPacientePage() {
     <div>
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-foreground">Nuevo paciente</h1>
-        <p className="text-muted-foreground text-sm mt-1">
-          Completa los datos para registrar un nuevo paciente
-        </p>
       </div>
       <div className="bg-card border border-border rounded-lg p-6 max-w-2xl">
         <PatientForm />

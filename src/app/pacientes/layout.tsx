@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import Sidebar from "@/components/layout/sidebar";
+import AppShell from "@/components/layout/app-shell";
 
 export default async function PacientesLayout({
   children,
@@ -22,12 +22,5 @@ export default async function PacientesLayout({
 
   if (!profile) redirect("/auth/login");
 
-  return (
-    <div className="flex min-h-screen">
-      <Sidebar profile={profile} />
-      <main className="flex-1 p-8 bg-muted/20 overflow-y-auto min-h-screen">
-        {children}
-      </main>
-    </div>
-  );
+  return <AppShell profile={profile}>{children}</AppShell>;
 }

@@ -56,16 +56,17 @@ const roleLabel: Record<UserRole, string> = {
 
 interface SidebarProps {
   profile: Profile;
+  onNavigate?: () => void;
 }
 
-export default function Sidebar({ profile }: SidebarProps) {
+export default function Sidebar({ profile, onNavigate }: SidebarProps) {
   const pathname = usePathname();
   const visibleItems = navItems.filter((item) =>
     item.roles.includes(profile.role),
   );
 
   return (
-    <aside className="w-64 min-h-screen bg-white border-r border-border flex flex-col shrink-0">
+    <aside className="w-64 h-full bg-white border-r border-border flex flex-col overflow-hidden">
       {/* Encabezado */}
       <div className="px-6 py-5 border-b border-border">
         <div className="flex items-center gap-3 mb-3">
@@ -87,6 +88,7 @@ export default function Sidebar({ profile }: SidebarProps) {
           <Link
             key={item.href}
             href={item.href}
+            onClick={onNavigate}
             className={cn(
               "flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors",
               pathname === item.href

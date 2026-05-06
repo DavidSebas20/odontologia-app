@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getPatients } from "@/server/actions/patients";
 import { Button } from "@/components/ui/button";
 import PatientsTable from "./patients-table";
+import { FaPlus } from "react-icons/fa6";
 
 export default async function PacientesPage() {
   const { data: patients, error } = await getPatients();
@@ -13,7 +14,9 @@ export default async function PacientesPage() {
           <h1 className="text-2xl font-bold text-foreground">Pacientes</h1>
         </div>
         <Link href="/pacientes/nuevo">
-          <Button>+ Nuevo paciente</Button>
+          <Button>
+            <FaPlus /> Nuevo paciente
+          </Button>
         </Link>
       </div>
 
