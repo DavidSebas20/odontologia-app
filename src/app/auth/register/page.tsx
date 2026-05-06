@@ -54,10 +54,13 @@ export default function RegisterPage() {
 
   return (
     <Card className="w-full max-w-md">
-      <CardHeader className="text-center">
-        <div className="text-4xl mb-2">🦷</div>
-        <CardTitle className="text-2xl">Crear cuenta</CardTitle>
-        <CardDescription>Completa los datos para registrarte</CardDescription>
+      <CardHeader className="text-center pb-4">
+        <CardTitle className="text-xl font-bold text-foreground">
+          Crear cuenta
+        </CardTitle>
+        <CardDescription className="text-muted-foreground">
+          Completa los datos para registrarte
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>

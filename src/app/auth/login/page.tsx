@@ -48,10 +48,11 @@ export default function LoginPage() {
 
   return (
     <Card className="w-full max-w-md">
-      <CardHeader className="text-center">
-        <div className="text-4xl mb-2">🦷</div>
-        <CardTitle className="text-2xl">Iniciar sesión</CardTitle>
-        <CardDescription>
+      <CardHeader className="text-center pb-4">
+        <CardTitle className="text-xl font-bold text-foreground">
+          Iniciar sesión
+        </CardTitle>
+        <CardDescription className="text-muted-foreground">
           Ingresa tus credenciales para acceder al sistema
         </CardDescription>
       </CardHeader>

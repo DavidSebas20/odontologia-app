@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { FaTooth } from "react-icons/fa";
 import { cn } from "@/lib/utils";
 import { logoutAction } from "@/server/actions/auth";
 import { Button } from "@/components/ui/button";
@@ -64,20 +65,24 @@ export default function Sidebar({ profile }: SidebarProps) {
   );
 
   return (
-    <aside className="w-64 min-h-screen bg-card border-r flex flex-col shrink-0">
+    <aside className="w-64 min-h-screen bg-white border-r border-border flex flex-col shrink-0">
       {/* Encabezado */}
-      <div className="p-6 border-b">
-        <h1 className="font-bold text-lg leading-tight">🦷 Clínica Dental</h1>
-        <p className="text-sm text-muted-foreground mt-1 truncate">
-          {profile.full_name ?? profile.email}
-        </p>
-        <span className="inline-block mt-2 text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full">
+      <div className="px-6 py-5 border-b border-border">
+        <div className="flex items-center gap-3 mb-3">
+          <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center shrink-0">
+            <FaTooth className="text-white" size={24} />
+          </div>
+          <h1 className="font-semibold text-base leading-tight text-foreground">
+            Clínica Dental
+          </h1>
+        </div>
+        <span className="inline-block mt-1.5 text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full">
           {roleLabel[profile.role]}
         </span>
       </div>
 
       {/* Navegación */}
-      <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
+      <nav className="flex-1 p-3 space-y-0.5 overflow-y-auto">
         {visibleItems.map((item) => (
           <Link
             key={item.href}
@@ -85,8 +90,8 @@ export default function Sidebar({ profile }: SidebarProps) {
             className={cn(
               "flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors",
               pathname === item.href
-                ? "bg-primary text-primary-foreground"
-                : "text-muted-foreground hover:bg-muted hover:text-foreground",
+                ? "bg-[#072d6b] text-white font-semibold"
+                : "text-foreground/70 hover:bg-muted hover:text-foreground",
             )}
           >
             {item.label}
@@ -95,7 +100,7 @@ export default function Sidebar({ profile }: SidebarProps) {
       </nav>
 
       {/* Cerrar sesión */}
-      <div className="p-4 border-t">
+      <div className="p-3 border-t border-border">
         <form action={logoutAction}>
           <Button variant="outline" className="w-full" type="submit">
             Cerrar sesión
