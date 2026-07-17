@@ -15,22 +15,30 @@ export default async function DashboardPage() {
 
   const role: UserRole = (profile?.role as UserRole) ?? "paciente";
 
-  // Métricas Fase 1: conteo de pacientes
-  const [{ count: totalPatients }, { count: newPatientsThisMonth }] =
-    await Promise.all([
-      supabase.from("patients").select("*", { count: "exact", head: true }),
-      supabase
-        .from("patients")
-        .select("*", { count: "exact", head: true })
-        .gte(
-          "created_at",
-          new Date(
-            new Date().getFullYear(),
-            new Date().getMonth(),
-            1,
-          ).toISOString(),
-        ),
-    ]);
+  const today = new Date().toISOString().slice(0, 10);
+
+  const [
+    { count: totalPatients },
+    { count: newPatientsThisMonth },
+    { count: citasHoy },
+    { count: citasPendientes },
+    { count: misCitasHoy },
+    { count: tratamientosTotal },
+    { count: consentimientosPendientes },
+    { count: facturasPendientes },
+  ] = await Promise.all([
+    supabase.from("patients").select("*", { count: "exact", head: true }),
+    supabase
+      .from("patients")
+      .select("*", { count: "exact", head: true })
+      .gte("created_at", new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString()),
+    supabase.from("citas").select("*", { count: "exact", head: true }).eq("fecha", today),
+    supabase.from("citas").select("*", { count: "exact", head: true }).eq("estado", "pendiente"),
+    supabase.from("citas").select("*", { count: "exact", head: true }).eq("fecha", today).eq("dentist_id", user!.id),
+    supabase.from("tratamientos").select("*", { count: "exact", head: true }),
+    supabase.from("consentimientos").select("*", { count: "exact", head: true }).eq("firmado", false),
+    supabase.from("facturas").select("*", { count: "exact", head: true }).in("estado", ["pendiente", "parcial"]),
+  ]);
 
   type KPI = {
     label: string;
@@ -41,7 +49,12 @@ export default async function DashboardPage() {
 
   const kpisByRole: Record<UserRole, KPI[]> = {
     admin: [
-      { label: "Citas hoy", value: "—", description: "Se activará en Fase 2" },
+      {
+        label: "Citas hoy",
+        value: String(citasHoy ?? 0),
+        description: "Agendadas para hoy",
+        href: "/citas",
+      },
       {
         label: "Pacientes activos",
         value: String(totalPatients ?? 0),
@@ -49,21 +62,24 @@ export default async function DashboardPage() {
         href: "/pacientes",
       },
       {
-        label: "Tratamientos en curso",
-        value: "—",
-        description: "Se activará en Fase 3",
+        label: "Tratamientos",
+        value: String(tratamientosTotal ?? 0),
+        description: "Total de tratamientos registrados",
+        href: "/pacientes",
       },
       {
         label: "Saldo pendiente",
-        value: "—",
-        description: "Se activará en Fase 5",
+        value: String(facturasPendientes ?? 0),
+        description: "Facturas pendientes o parciales",
+        href: "/facturacion",
       },
     ],
     dentista: [
       {
         label: "Mis citas hoy",
-        value: "—",
-        description: "Se activará en Fase 2",
+        value: String(misCitasHoy ?? 0),
+        description: "Agendadas para hoy",
+        href: "/citas",
       },
       {
         label: "Total pacientes",
@@ -72,22 +88,30 @@ export default async function DashboardPage() {
         href: "/pacientes",
       },
       {
-        label: "Tratamientos activos",
-        value: "—",
-        description: "Se activará en Fase 3",
+        label: "Tratamientos",
+        value: String(tratamientosTotal ?? 0),
+        description: "Total de tratamientos registrados",
+        href: "/pacientes",
       },
       {
-        label: "Pendientes de firma",
-        value: "—",
-        description: "Se activará en Fase 4",
+        label: "Por firmar",
+        value: String(consentimientosPendientes ?? 0),
+        description: "Consentimientos pendientes de firma",
+        href: "/pacientes",
       },
     ],
     recepcion: [
-      { label: "Citas hoy", value: "—", description: "Se activará en Fase 2" },
+      {
+        label: "Citas hoy",
+        value: String(citasHoy ?? 0),
+        description: "Agendadas para hoy",
+        href: "/citas",
+      },
       {
         label: "Por confirmar",
-        value: "—",
-        description: "Se activará en Fase 2",
+        value: String(citasPendientes ?? 0),
+        description: "Citas en estado pendiente",
+        href: "/citas",
       },
       {
         label: "Nuevos pacientes (mes)",
@@ -97,30 +121,31 @@ export default async function DashboardPage() {
       },
       {
         label: "Pagos pendientes",
-        value: "—",
-        description: "Se activará en Fase 5",
+        value: String(facturasPendientes ?? 0),
+        description: "Facturas pendientes o parciales",
+        href: "/facturacion",
       },
     ],
     paciente: [
       {
         label: "Mis próximas citas",
-        value: "—",
-        description: "Se activará en Fase 2",
+        value: String(citasPendientes ?? 0),
+        description: "Citas pendientes",
       },
       {
         label: "Mis tratamientos",
-        value: "—",
-        description: "Se activará en Fase 3",
+        value: String(tratamientosTotal ?? 0),
+        description: "Tratamientos registrados",
       },
       {
         label: "Saldo pendiente",
-        value: "—",
-        description: "Se activará en Fase 5",
+        value: String(facturasPendientes ?? 0),
+        description: "Facturas pendientes",
       },
       {
         label: "Documentos pendientes",
-        value: "—",
-        description: "Se activará en Fase 4",
+        value: String(consentimientosPendientes ?? 0),
+        description: "Consentimientos por firmar",
       },
     ],
   };
@@ -142,7 +167,6 @@ export default async function DashboardPage() {
         </p>
       </div>
 
-      {/* KPIs por rol */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {kpis.map((kpi) => {
           const card = (

@@ -9,6 +9,8 @@ export type Tratamiento =
   Database["public"]["Tables"]["tratamientos"]["Row"];
 export type Factura = Database["public"]["Tables"]["facturas"]["Row"];
 export type Pago = Database["public"]["Tables"]["pagos"]["Row"];
+export type Consentimiento =
+  Database["public"]["Tables"]["consentimientos"]["Row"];
 
 export type Database = {
   public: {
@@ -225,6 +227,39 @@ export type Database = {
           monto?: number;
           metodo_pago?: "efectivo" | "tarjeta" | "transferencia";
           fecha_pago?: string;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
+      consentimientos: {
+        Row: {
+          id: string;
+          patient_id: string;
+          tratamiento_id: string | null;
+          tipo_consentimiento: string;
+          contenido: string;
+          firmado: boolean;
+          fecha_firma: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          patient_id: string;
+          tratamiento_id?: string | null;
+          tipo_consentimiento: string;
+          contenido: string;
+          firmado?: boolean;
+          fecha_firma?: string | null;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          patient_id?: string;
+          tratamiento_id?: string | null;
+          tipo_consentimiento?: string;
+          contenido?: string;
+          firmado?: boolean;
+          fecha_firma?: string | null;
           created_at?: string;
         };
         Relationships: [];
