@@ -4,6 +4,7 @@ export type Profile = Database["public"]["Tables"]["profiles"]["Row"];
 export type Patient = Database["public"]["Tables"]["patients"]["Row"];
 export type StaffAssignment =
   Database["public"]["Tables"]["staff_assignments"]["Row"];
+export type Cita = Database["public"]["Tables"]["citas"]["Row"];
 
 export type Database = {
   public: {
@@ -88,6 +89,45 @@ export type Database = {
           user_id?: string;
           specialty?: string;
           status?: "activo" | "inactivo";
+          created_at?: string;
+        };
+        Relationships: [];
+      };
+      citas: {
+        Row: {
+          id: string;
+          patient_id: string;
+          dentist_id: string;
+          fecha: string;
+          hora_inicio: string;
+          hora_fin: string;
+          motivo: string;
+          estado: "pendiente" | "confirmada" | "cancelada" | "completada";
+          notas: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          patient_id: string;
+          dentist_id: string;
+          fecha: string;
+          hora_inicio: string;
+          hora_fin: string;
+          motivo: string;
+          estado?: "pendiente" | "confirmada" | "cancelada" | "completada";
+          notas?: string | null;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          patient_id?: string;
+          dentist_id?: string;
+          fecha?: string;
+          hora_inicio?: string;
+          hora_fin?: string;
+          motivo?: string;
+          estado?: "pendiente" | "confirmada" | "cancelada" | "completada";
+          notas?: string | null;
           created_at?: string;
         };
         Relationships: [];
