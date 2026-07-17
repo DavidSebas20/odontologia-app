@@ -5,6 +5,8 @@ export type Patient = Database["public"]["Tables"]["patients"]["Row"];
 export type StaffAssignment =
   Database["public"]["Tables"]["staff_assignments"]["Row"];
 export type Cita = Database["public"]["Tables"]["citas"]["Row"];
+export type Tratamiento =
+  Database["public"]["Tables"]["tratamientos"]["Row"];
 
 export type Database = {
   public: {
@@ -128,6 +130,42 @@ export type Database = {
           motivo?: string;
           estado?: "pendiente" | "confirmada" | "cancelada" | "completada";
           notas?: string | null;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
+      tratamientos: {
+        Row: {
+          id: string;
+          patient_id: string;
+          dentist_id: string;
+          cita_id: string | null;
+          fecha: string;
+          diagnostico: string;
+          procedimiento_realizado: string;
+          observaciones: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          patient_id: string;
+          dentist_id: string;
+          cita_id?: string | null;
+          fecha?: string;
+          diagnostico: string;
+          procedimiento_realizado: string;
+          observaciones?: string | null;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          patient_id?: string;
+          dentist_id?: string;
+          cita_id?: string | null;
+          fecha?: string;
+          diagnostico?: string;
+          procedimiento_realizado?: string;
+          observaciones?: string | null;
           created_at?: string;
         };
         Relationships: [];

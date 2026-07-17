@@ -83,23 +83,27 @@ export default async function PacienteDetailPage({ params }: Props) {
             </dl>
           </div>
 
-          {/* Módulos futuros (placeholders) */}
+          {/* Módulos de historial y citas */}
+          <Link href={`/pacientes/${patient.id}/historial`} className="block">
+            <div className="bg-card border rounded-lg p-5 hover:border-primary/40 hover:shadow-sm transition-all cursor-pointer">
+              <h3 className="font-semibold mb-1 text-sm">Historial clínico</h3>
+              <p className="text-xs text-muted-foreground">
+                Ver tratamientos registrados
+              </p>
+            </div>
+          </Link>
+          <Link href={`/pacientes/${patient.id}/consentimientos`} className="block">
+            <div className="bg-card border rounded-lg p-5 hover:border-primary/40 hover:shadow-sm transition-all cursor-pointer">
+              <h3 className="font-semibold mb-1 text-sm">Consentimientos</h3>
+              <p className="text-xs text-muted-foreground">
+                Ver y gestionar consentimientos
+              </p>
+            </div>
+          </Link>
           <div className="bg-card border rounded-lg p-5 opacity-60">
-            <h3 className="font-semibold mb-2 text-sm">Historial clínico</h3>
+            <h3 className="font-semibold mb-1 text-sm">Citas</h3>
             <p className="text-xs text-muted-foreground">
-              Disponible en Fase 3
-            </p>
-          </div>
-          <div className="bg-card border rounded-lg p-5 opacity-60">
-            <h3 className="font-semibold mb-2 text-sm">Citas</h3>
-            <p className="text-xs text-muted-foreground">
-              Disponible en Fase 2
-            </p>
-          </div>
-          <div className="bg-card border rounded-lg p-5 opacity-60">
-            <h3 className="font-semibold mb-2 text-sm">Pagos</h3>
-            <p className="text-xs text-muted-foreground">
-              Disponible en Fase 5
+              Ver en módulo de Citas
             </p>
           </div>
         </div>

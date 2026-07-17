@@ -32,18 +32,18 @@ const navItems: NavItem[] = [
   },
   {
     label: "Historial Clínico",
-    href: "/historial",
-    roles: ["admin", "dentista", "paciente"],
-  },
-  {
-    label: "Consentimientos",
-    href: "/consentimientos",
+    href: "/pacientes",
     roles: ["admin", "dentista"],
   },
   {
-    label: "Pagos",
-    href: "/pagos",
+    label: "Facturación",
+    href: "/facturacion",
     roles: ["admin", "recepcion"],
+  },
+  {
+    label: "Consentimientos",
+    href: "/pacientes",
+    roles: ["admin", "dentista"],
   },
 ];
 
