@@ -7,6 +7,8 @@ export type StaffAssignment =
 export type Cita = Database["public"]["Tables"]["citas"]["Row"];
 export type Tratamiento =
   Database["public"]["Tables"]["tratamientos"]["Row"];
+export type Factura = Database["public"]["Tables"]["facturas"]["Row"];
+export type Pago = Database["public"]["Tables"]["pagos"]["Row"];
 
 export type Database = {
   public: {
@@ -166,6 +168,63 @@ export type Database = {
           diagnostico?: string;
           procedimiento_realizado?: string;
           observaciones?: string | null;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
+      facturas: {
+        Row: {
+          id: string;
+          patient_id: string;
+          tratamiento_id: string | null;
+          monto_total: number;
+          estado: "pendiente" | "pagado" | "parcial" | "anulado";
+          fecha_emision: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          patient_id: string;
+          tratamiento_id?: string | null;
+          monto_total: number;
+          estado?: "pendiente" | "pagado" | "parcial" | "anulado";
+          fecha_emision?: string;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          patient_id?: string;
+          tratamiento_id?: string | null;
+          monto_total?: number;
+          estado?: "pendiente" | "pagado" | "parcial" | "anulado";
+          fecha_emision?: string;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
+      pagos: {
+        Row: {
+          id: string;
+          factura_id: string;
+          monto: number;
+          metodo_pago: "efectivo" | "tarjeta" | "transferencia";
+          fecha_pago: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          factura_id: string;
+          monto: number;
+          metodo_pago?: "efectivo" | "tarjeta" | "transferencia";
+          fecha_pago?: string;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          factura_id?: string;
+          monto?: number;
+          metodo_pago?: "efectivo" | "tarjeta" | "transferencia";
+          fecha_pago?: string;
           created_at?: string;
         };
         Relationships: [];
